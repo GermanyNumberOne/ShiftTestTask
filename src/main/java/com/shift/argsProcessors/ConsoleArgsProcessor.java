@@ -41,7 +41,7 @@ public class ConsoleArgsProcessor {
     }
 
     public Map<String, String> validateAllArgs(Map<String, String> args){
-        if(args.size() == 0)return null;
+        if(args.isEmpty())return null;
         String value;
 
         value = args.containsKey("output") ? args.get("output") : args.get("o");

@@ -22,6 +22,16 @@ public enum Departments {
         throw new IllegalAccessException("No enum constant with value " + val);
     }
 
+    public static boolean isDepartment(String dep){
+        for (Departments d : values()){
+            if(d.departmentId == Integer.parseInt(dep)){
+                return true;
+
+                matches("[-+]?\\d+");
+            }
+        }
+    }
+
     public static Departments fromValue(String val) {
         return Departments.valueOf(val);
     }

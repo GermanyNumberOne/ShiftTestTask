@@ -1,6 +1,6 @@
 package com.shift.file;
 
-import com.shift.model.Departments;
+import com.shift.model.Context;
 import com.shift.model.Worker;
 
 import java.io.IOException;
@@ -10,22 +10,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FileManager {
-    public static List<Worker> loadWorkers(String filePath) throws IOException {
-        List<Worker> workers = new ArrayList<>();
+    public static void loadWorkers(String[] filePaths) throws IOException {
+        for (String path : filePaths){
+            Files.lines(Paths.get(path))
+                    .forEach(line -> {
+                        String[] parts = line.split(",");
+                        try {
+                            String position = parts[0];
 
-        Files.lines(Paths.get(filePath))
-                .forEach(line -> {
-                    String[] parts = line.split(",");
-                    try {
-                        String position = parts[0];
-                        Long id = Long.parseLong(parts[1]);
-                    } catch (NumberFormatException e){
+                            long id = Long.parseLong(parts[1]);
 
-                    }
+                            String name = parts[2];
+
+                            double salary = Double.parseDouble(parts[3]);
+                            if(salary < 0)throw new NumberFormatException(name + "'s salary is negative");
+
+                            String department = parts[4];
+                            if(department)
+                            Context.addWorker(new Worker(position, id, name, salary, department));
+                        } catch (NumberFormatException e){
+                            Context.addError(String.join(",", parts));
+                        }
+                    });
+        }
 
 
-                });
 
-        return workers;
     }
 }
